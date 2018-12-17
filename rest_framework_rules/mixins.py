@@ -1,3 +1,4 @@
+import six
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -19,7 +20,7 @@ class PermissionRequiredMixin:
                 .format(self.__class__.__name__)
             )
 
-        if isinstance(self.permission_required, str):
+        if isinstance(self.permission_required, six.string_types):
             perms = (self.permission_required, )
         else:
             perms = self.permission_required
@@ -31,7 +32,7 @@ class PermissionRequiredMixin:
         if self.object_permission_required is None:
             return self.get_permission_required()
 
-        if isinstance(self.object_permission_required, str):
+        if isinstance(self.object_permission_required, six.string_types):
             perms = (self.object_permission_required, )
         else:
             perms = self.object_permission_required
@@ -48,6 +49,7 @@ class PermissionRequiredMixin:
             self.permission_denied(
                 request,
                 message=('MISSING: {}'.format(', '.join(missing_permissions))))
+
 
     def check_permissions(self, request):
         user = request.user
